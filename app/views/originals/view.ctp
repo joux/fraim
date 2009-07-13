@@ -1,4 +1,4 @@
-<div class="original view">
+<div class="originals view">
 <h2><?php  __('Original');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
@@ -17,7 +17,7 @@
 	<ul>
 		<li><?php echo $html->link(__('Edit Original', true), array('action'=>'edit', $original['Original']['id'])); ?> </li>
 		<li><?php echo $html->link(__('Delete Original', true), array('action'=>'delete', $original['Original']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $original['Original']['id'])); ?> </li>
-		<li><?php echo $html->link(__('List Original', true), array('action'=>'index')); ?> </li>
+		<li><?php echo $html->link(__('List Originals', true), array('action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Original', true), array('action'=>'add')); ?> </li>
 		<li><?php echo $html->link(__('List Films', true), array('controller'=> 'films', 'action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Film', true), array('controller'=> 'films', 'action'=>'add')); ?> </li>

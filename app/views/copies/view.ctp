@@ -1,4 +1,4 @@
-<div class="copy view">
+<div class="copies view">
 <h2><?php  __('Copy');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
@@ -32,7 +32,7 @@
 	<ul>
 		<li><?php echo $html->link(__('Edit Copy', true), array('action'=>'edit', $copy['Copy']['id'])); ?> </li>
 		<li><?php echo $html->link(__('Delete Copy', true), array('action'=>'delete', $copy['Copy']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $copy['Copy']['id'])); ?> </li>
-		<li><?php echo $html->link(__('List Copy', true), array('action'=>'index')); ?> </li>
+		<li><?php echo $html->link(__('List Copies', true), array('action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Copy', true), array('action'=>'add')); ?> </li>
 		<li><?php echo $html->link(__('List Originals', true), array('controller'=> 'originals', 'action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Original', true), array('controller'=> 'originals', 'action'=>'add')); ?> </li>

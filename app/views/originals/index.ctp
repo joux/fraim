@@ -1,5 +1,5 @@
-<div class="original index">
-<h2><?php __('Original');?></h2>
+<div class="originals index">
+<h2><?php __('Originals');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -14,7 +14,7 @@ echo $paginator->counter(array(
 </tr>
 <?php
 $i = 0;
-foreach ($original as $original):
+foreach ($originals as $original):
 	$class = null;
 	if ($i++ % 2 == 0) {
 		$class = ' class="altrow"';

@@ -1,5 +1,5 @@
-<div class="copy index">
-<h2><?php __('Copy');?></h2>
+<div class="copies index">
+<h2><?php __('Copies');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -17,7 +17,7 @@ echo $paginator->counter(array(
 </tr>
 <?php
 $i = 0;
-foreach ($copy as $copy):
+foreach ($copies as $copy):
 	$class = null;
 	if ($i++ % 2 == 0) {
 		$class = ' class="altrow"';

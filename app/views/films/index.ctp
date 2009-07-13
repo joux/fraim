@@ -1,5 +1,5 @@
-<div class="film index">
-<h2><?php __('Film');?></h2>
+<div class="films index">
+<h2><?php __('Films');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -18,7 +18,7 @@ echo $paginator->counter(array(
 </tr>
 <?php
 $i = 0;
-foreach ($film as $film):
+foreach ($films as $film):
 	$class = null;
 	if ($i++ % 2 == 0) {
 		$class = ' class="altrow"';

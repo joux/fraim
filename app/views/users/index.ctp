@@ -1,5 +1,5 @@
-<div class="user index">
-<h2><?php __('User');?></h2>
+<div class="users index">
+<h2><?php __('Users');?></h2>
 <p>
 <?php
 echo $paginator->counter(array(
@@ -20,7 +20,7 @@ echo $paginator->counter(array(
 </tr>
 <?php
 $i = 0;
-foreach ($user as $user):
+foreach ($users as $user):
 	$class = null;
 	if ($i++ % 2 == 0) {
 		$class = ' class="altrow"';

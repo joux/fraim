@@ -1,7 +1,7 @@
 <?php
-class FilmController extends AppController {
+class FilmsController extends AppController {
 
-	var $name = 'Film';
+	var $name = 'Films';
 	var $helpers = array('Html', 'Form');
 
 	function index() {

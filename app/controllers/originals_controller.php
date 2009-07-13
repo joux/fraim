@@ -1,7 +1,7 @@
 <?php
-class OriginalController extends AppController {
+class OriginalsController extends AppController {
 
-	var $name = 'Original';
+	var $name = 'Originals';
 	var $helpers = array('Html', 'Form');
 
 	function index() {

@@ -1,4 +1,4 @@
-<div class="film view">
+<div class="films view">
 <h2><?php  __('Film');?></h2>
 	<dl><?php $i = 0; $class = ' class="altrow"';?>
 		<dt<?php if ($i % 2 == 0) echo $class;?>><?php __('Id'); ?></dt>
@@ -37,7 +37,7 @@
 	<ul>
 		<li><?php echo $html->link(__('Edit Film', true), array('action'=>'edit', $film['Film']['id'])); ?> </li>
 		<li><?php echo $html->link(__('Delete Film', true), array('action'=>'delete', $film['Film']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $film['Film']['id'])); ?> </li>
-		<li><?php echo $html->link(__('List Film', true), array('action'=>'index')); ?> </li>
+		<li><?php echo $html->link(__('List Films', true), array('action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Film', true), array('action'=>'add')); ?> </li>
 		<li><?php echo $html->link(__('List Users', true), array('controller'=> 'users', 'action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New User', true), array('controller'=> 'users', 'action'=>'add')); ?> </li>

@@ -1,4 +1,4 @@
-<div class="user form">
+<div class="users form">
 <?php echo $form->create('User');?>
 	<fieldset>
  		<legend><?php __('Edit User');?></legend>
@@ -17,7 +17,7 @@
 <div class="actions">
 	<ul>
 		<li><?php echo $html->link(__('Delete', true), array('action'=>'delete', $form->value('User.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $form->value('User.id'))); ?></li>
-		<li><?php echo $html->link(__('List User', true), array('action'=>'index'));?></li>
+		<li><?php echo $html->link(__('List Users', true), array('action'=>'index'));?></li>
 		<li><?php echo $html->link(__('List Copies', true), array('controller'=> 'copies', 'action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Copy', true), array('controller'=> 'copies', 'action'=>'add')); ?> </li>
 		<li><?php echo $html->link(__('List Films', true), array('controller'=> 'films', 'action'=>'index')); ?> </li>

@@ -1,7 +1,7 @@
 <?php
-class CopyController extends AppController {
+class CopiesController extends AppController {
 
-	var $name = 'Copy';
+	var $name = 'Copies';
 	var $helpers = array('Html', 'Form');
 
 	function index() {

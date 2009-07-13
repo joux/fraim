@@ -1,4 +1,4 @@
-<div class="copy form">
+<div class="copies form">
 <?php echo $form->create('Copy');?>
 	<fieldset>
  		<legend><?php __('Edit Copy');?></legend>
@@ -14,7 +14,7 @@
 <div class="actions">
 	<ul>
 		<li><?php echo $html->link(__('Delete', true), array('action'=>'delete', $form->value('Copy.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $form->value('Copy.id'))); ?></li>
-		<li><?php echo $html->link(__('List Copy', true), array('action'=>'index'));?></li>
+		<li><?php echo $html->link(__('List Copies', true), array('action'=>'index'));?></li>
 		<li><?php echo $html->link(__('List Originals', true), array('controller'=> 'originals', 'action'=>'index')); ?> </li>
 		<li><?php echo $html->link(__('New Original', true), array('controller'=> 'originals', 'action'=>'add')); ?> </li>
 		<li><?php echo $html->link(__('List Users', true), array('controller'=> 'users', 'action'=>'index')); ?> </li>

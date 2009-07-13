@@ -1,7 +1,7 @@
 <?php
-class UserController extends AppController {
+class UsersController extends AppController {
 
-	var $name = 'User';
+	var $name = 'Users';
 	var $helpers = array('Html', 'Form');
 
 	function index() {
