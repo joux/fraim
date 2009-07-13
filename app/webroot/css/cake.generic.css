@@ -89,9 +89,10 @@ ul, li {
 	padding: 10px 20px;
 }
 #header h1 {
-	background: #003d4c url('../img/cake.icon.gif') no-repeat left;
+	background: #003d4c url('../img/fraim.icon.png') no-repeat left;
+	font-size: 120%;
 	color: #fff;
-	padding: 0px 30px;
+	padding: 0px 75px;
 }
 #header h1 a {
 	color: #fff;
