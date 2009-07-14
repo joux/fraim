@@ -40,5 +40,8 @@
  * $controllerPaths = array('this path to controllers', 'second full path to controllers', 'etc...');
  *
  */
+ 
+ Configure::load('fraim');
+ 
 //EOF
 ?>
