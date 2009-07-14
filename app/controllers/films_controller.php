@@ -2,7 +2,7 @@
 class FilmsController extends AppController {
 
 	var $name = 'Films';
-	var $helpers = array('Html', 'Form');
+	var $helpers = array('Html', 'Form','Javascript');
 
 	function index() {
 		$this->Film->recursive = 0;
