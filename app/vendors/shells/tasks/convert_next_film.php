@@ -12,7 +12,7 @@ class ConvertNextFilmTask extends Shell{
 			foreach($films as $film){
 				//$this->out($film['Film']['title']);
 				// Convert to single frames:
-				$inputFile=sprintf('app/webroot/%svideo/%05d.flv',Configure::read('mediaPath'),$film['Film']['id']);
+				$inputFile=sprintf('app/webroot/%svideo/original/%05d.flv',Configure::read('mediaPath'),$film['Film']['id']);
 				$outputFolder=sprintf('app/webroot/%sframes/original/%05d/',Configure::read('mediaPath'),$film['Film']['id']);
 				exec('nice ffmpeg -i '.$inputFile.' -s 640x480 -an -r 10 -y '.$outputFolder.'%10d.jpg');
 				
