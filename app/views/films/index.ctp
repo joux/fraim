@@ -45,8 +45,6 @@ foreach ($films as $film):
 		</td>
 		<td class="actions">
 			<?php echo $html->link(__('View', true), array('action'=>'view', $film['Film']['id'])); ?>
-			<?php echo $html->link(__('Edit', true), array('action'=>'edit', $film['Film']['id'])); ?>
-			<?php echo $html->link(__('Delete', true), array('action'=>'delete', $film['Film']['id']), null, sprintf(__('Are you sure you want to delete # %s?', true), $film['Film']['id'])); ?>
 		</td>
 	</tr>
 <?php endforeach; ?>
