@@ -57,6 +57,10 @@ class CopiesController extends AppController {
 					$uploadPath=WWW_ROOT.Configure::read('mediaPath').'frames/copy/';
 					debug(sprintf('Image file will now be moved to %s%010d.jpg',$uploadPath,$this->Copy->id));
 					move_uploaded_file($this->data['Copy']['content']['tmp_name'],sprintf('%s%010d.jpg',$uploadPath,$this->Copy->id));
+					// Mark the film for a new rendering:
+					$film=$this->Copy->Original->find('first',array('conditions'=>array('Original.id'=>$original_id) ,'recursive'=>'1') );
+					$film['Film']['render_me']=true;
+					$this->Copy->Original->Film->save($film);
 				}else{
 					// Delete the film record again, because there is no corresponding file now:
 					$this->Copy->del($this->Copy->id);
