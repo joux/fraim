@@ -4,16 +4,18 @@ class ConvertNextFilmTask extends Shell{
 	function execute(){
 		//App:import('Core','File');
 		// Exit if lock file exists
-		if(file_exists('locks/CONVERTING')) return;
+		if(file_exists(APP_PATH.'locks/CONVERTING')) return;
 		// Create lock file
-		fclose(fopen('locks/CONVERTING', 'w'));
+		fclose(fopen(APP_PATH.'locks/CONVERTING', 'w'));
 		while($this->Film->find('count',array('conditions'=>array('single_frames_ready'=>0,'conversion_error'=>0) ) ) > 0){
 			$films=$this->Film->find('all',array('conditions'=>array('single_frames_ready'=>0,'conversion_error'=>0) ) );
 			foreach($films as $film){
 				//$this->out($film['Film']['title']);
 				// Convert to single frames:
-				$inputFile=sprintf('app/webroot/%svideo/original/%05d.flv',Configure::read('mediaPath'),$film['Film']['id']);
-				$outputFolder=sprintf('app/webroot/%sframes/original/%05d/',Configure::read('mediaPath'),$film['Film']['id']);
+				$inputFile=sprintf('%s%svideo/original/%05d.flv',WWW_ROOT,Configure::read('mediaPath'),$film['Film']['id']);
+				$outputFolder=sprintf('%s%sframes/original/%05d/',WWW_ROOT,Configure::read('mediaPath'),$film['Film']['id']);
+				//Create output folder first:
+				mkdir($outputFolder);
 				exec('nice ffmpeg -i '.$inputFile.' -s 640x480 -an -r 10 -y '.$outputFolder.'%10d.jpg');
 				
 				
@@ -25,7 +27,7 @@ class ConvertNextFilmTask extends Shell{
 				}
 				// We need to save to intermediate array, so we can sort:
 				//$fileArray[]=new array();
-				foreach (new DirectoryIterator(sprintf('app/webroot/%sframes/original/%05d',Configure::read('mediaPath'),$film['Film']['id'])) as $file) {
+				foreach (new DirectoryIterator(sprintf('%s%sframes/original/%05d',WWW_ROOT,Configure::read('mediaPath'),$film['Film']['id'])) as $file) {
 					// if the file is a file and not hidden:
 				   if ( !$file->isDot() && !$file->isDir() )  {
 					   $fileArray[]=$file->getFilename();
@@ -52,7 +54,7 @@ class ConvertNextFilmTask extends Shell{
 			
 		}
 		// delete lock file:
-		unlink('locks/CONVERTING');
+		unlink(APP_PATH.'locks/CONVERTING');
 	}
 }
 ?>
