@@ -39,7 +39,7 @@ class ConvertNextFilmTask extends Shell{
 				foreach($fileArray as $file){
 					$this->Original->create();
 					   $this->data['Original']['film_id']=$film['Film']['id'];
-					   $this->data['Original']['file']='media/frames/original/'.$film['Film']['id'].'/'.$file;
+					   $this->data['Original']['file']=sprintf('%s',$file);
 					   if($this->Original->save($this->data)){
 					      $this->out($file.' saved');
 					   }else{

@@ -12,14 +12,15 @@ class RenderFilmTask extends Shell{
 		// Get all the film's frames:
 		$originals=$this->Original->find('all',array('conditions'=>array('film_id'=>$film_id),'recursive'=>'1') );
 		// *** Create symlinks for all frames ***
+		$i=0;
 		foreach($originals as $original){
 			// If there is no copy, just link to the original:
 			if(empty($original['Copy'])){
-				symlink(sprintf('%s/%010d.jpg',$originalFolder,$original['Original']['id']),sprintf('%s/%010d.jpg',$tmpFolder,$original['Original']['id']));
+				symlink(sprintf('%s/%010d.jpg',$originalFolder,$original['Original']['filename']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
 			}else{
 			// select a random copy and link it:
 			$this->out('copy '.$original['Original']['id']);
-				symlink(sprintf('%s/%010d.jpg',$copyFolder,$original['Copy'][0]['id']),sprintf('%s/%010d.jpg',$tmpFolder,$original['Original']['id']));
+				symlink(sprintf('%s/%010d.jpg',$copyFolder,$original['Copy'][0]['id']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
 			}
 		}
 		// Mark this films as rendered (it is not yet, but symlinks are done...):
