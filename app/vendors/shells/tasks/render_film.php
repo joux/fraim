@@ -29,7 +29,7 @@ class RenderFilmTask extends Shell{
 		$this->Film->saveField('render_me',false);
 		
 		// *** Render video from frames ***
-		exec(sprintf('ffmpeg -r 25 -i %s/%s.jpg -vcodec libx264 -b 700k -r 25 %s/%05d.flv',$tmpFolder,'%10d',$tmpFolder,$film_id));
+		exec(sprintf('ffmpeg -r 25 -i %s/%s.jpg -vcodec libx264 -b 700k -vpre hq -crf 22 -threads 0 %s/%05d.flv',$tmpFolder,'%10d',$tmpFolder,$film_id));
 		unlink(sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		rename(sprintf('%s/%05d.flv',$tmpFolder,$film_id),sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		// *** Clean Up ***

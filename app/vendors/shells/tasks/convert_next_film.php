@@ -16,7 +16,7 @@ class ConvertNextFilmTask extends Shell{
 				$outputFolder=sprintf('%s%sframes/original/%05d/',WWW_ROOT,Configure::read('mediaPath'),$film['Film']['id']);
 				//Create output folder first:
 				mkdir($outputFolder);
-				exec('nice ffmpeg -i '.$inputFile.' -s 640x480 -an -r 10 -y '.$outputFolder.'%10d.jpg');
+				exec('nice ffmpeg -i '.$inputFile.' -s 640x480 -an -y '.$outputFolder.'%10d.jpg');
 				
 				
 				// Now create db records for all the frames:
