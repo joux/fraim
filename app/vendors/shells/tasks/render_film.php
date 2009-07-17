@@ -16,7 +16,7 @@ class RenderFilmTask extends Shell{
 		foreach($originals as $original){
 			// If there is no copy, just link to the original:
 			if(empty($original['Copy'])){
-				symlink(sprintf('%s/%010d.jpg',$originalFolder,$original['Original']['filename']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
+				symlink(sprintf('%s/%010d.jpg',$originalFolder,$original['Original']['file']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
 			}else{
 			// select a random copy and link it:
 			$this->out('copy '.$original['Original']['id']);
