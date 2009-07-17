@@ -16,19 +16,20 @@ class RenderFilmTask extends Shell{
 		foreach($originals as $original){
 			// If there is no copy, just link to the original:
 			if(empty($original['Copy'])){
-				symlink(sprintf('%s/%010d.jpg',$originalFolder,$original['Original']['file']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
+				symlink(sprintf('%s/%s',$originalFolder,$original['Original']['file']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
 			}else{
-			// select a random copy and link it:
+			// select first copy and link it:
 			$this->out('copy '.$original['Original']['id']);
 				symlink(sprintf('%s/%010d.jpg',$copyFolder,$original['Copy'][0]['id']),sprintf('%s/%010d.jpg',$tmpFolder,$i));
 			}
+			$i++;
 		}
 		// Mark this films as rendered (it is not yet, but symlinks are done...):
 		$this->Film->id=$film_id;
 		$this->Film->saveField('render_me',false);
 		
 		// *** Render video from frames ***
-		exec(sprintf('ffmpeg -i %s/%s.jpg -vcodec libx264 -b 700k -r 25 %s/%05d.flv',$tmpFolder,'%10d',$tmpFolder,$film_id));
+		exec(sprintf('ffmpeg -r 25 -i %s/%s.jpg -vcodec libx264 -b 700k -r 25 %s/%05d.flv',$tmpFolder,'%10d',$tmpFolder,$film_id));
 		unlink(sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		rename(sprintf('%s/%05d.flv',$tmpFolder,$film_id),sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		// *** Clean Up ***
