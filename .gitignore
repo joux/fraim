@@ -2,3 +2,4 @@
 app/tmp/*
 app/config/database.php
 app/webroot/media/*
+*.marks
