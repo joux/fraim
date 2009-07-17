@@ -1,3 +1,9 @@
+<img src="<?php echo sprintf('/fraim/%sframes/original/%05d/%s',Configure::read('mediaPath'),$original['Original']['film_id'],$original['Original']['file']); ?>" />
+<div class="actions">
+	<ul>
+		<li><?php echo $html->link(__('Give me a different frame to adopt', true), array('controller'=>'Films','action'=>'adoptFrame',$original['Original']['film_id']));?></li>
+	</ul>
+</div>
 <div class="copies form">
 <?php echo $form->create('Copy',array('type'=>'file','url'=>array('controller'=>'Copies','action'=>'add',$this->passedArgs[0])) );?>
 	<fieldset>
@@ -11,9 +17,4 @@
 	</fieldset>
 <?php echo $form->end('Submit');?>
 </div>
-<div class="actions">
-	<ul>
-		<li><?php echo $html->link(__('List Copies', true), array('action'=>'index'));?></li>
-		<li><?php echo $html->link(__('List Originals', true), array('controller'=> 'originals', 'action'=>'index')); ?> </li>
-	</ul>
-</div>
+

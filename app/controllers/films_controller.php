@@ -18,6 +18,7 @@ class FilmsController extends AppController {
 	}
 
 	function add() {
+		debug($this->data);
 		if (!empty($this->data)) {
 			$this->Film->create();
 			if ($this->Film->save($this->data)) {
@@ -60,9 +61,25 @@ class FilmsController extends AppController {
 			} else {
 				$this->Session->setFlash(__('The Film record could not be saved. Please, try again.', true));
 			}
-		}
+		}else{debug('empty data');}
 		$users = $this->Film->User->find('list');
 		$this->set(compact('users'));
+	}
+	
+	function adoptFrame($id=null){
+		if(!$id) $this->redirect('index');
+		
+		// This query returns all original frames that have no copies:
+		App::import('Core','Sanitize');
+		$query='SELECT * FROM `originals` LEFT OUTER JOIN copies ON originals.id = copies.original_id WHERE copies.id IS NULL AND originals.film_id = '.Sanitize::paranoid($id).' GROUP BY originals.id';
+		$loneOriginals=$this->Film->Original->query($query);
+		$frameCount=$this->Film->Original->getAffectedRows();
+		$this->Session->setFlash('This frame was selected from '.$frameCount.' without a copy.');
+		if($frameCount>0) $this->redirect(array('controller'=>'Copies','action'=>'add',$loneOriginals[rand(0,$frameCount-1)]['originals']['id']));
+		// ########### 
+		// If all originals already have copies: Get 5 random frame ids and choose the one with the least amount of copies:
+		$frameCount=$this->Film->Original->find('count');
+		debug($frameCount);
 	}
 
 	function edit($id = null) {

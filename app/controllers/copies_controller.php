@@ -24,13 +24,12 @@ class CopiesController extends AppController {
 		}
 		// Read id from form data, if present:
 		if (!empty($this->data)) $original_id=$this->data['Copy']['original_id'];
+		$original = $this->Copy->Original->find('first',array('conditions'=>array('Original.id'=>$original_id) ));
 		if (!empty($this->data)) {
 			$this->Copy->create();
 			if ($this->Copy->save($this->data)) {
-				$this->Session->setFlash(__('The Copy has been saved', true));
-				//---
-				debug('Copy record saved with id '.$this->Copy->id);
-				debug('Uploaded image file name was '.$this->data['Copy']['content']['name']);
+				//debug('Copy record saved with id '.$this->Copy->id);
+				//debug('Uploaded image file name was '.$this->data['Copy']['content']['name']);
 				// Handle the uploaded file:
 				// Check for some possible problems:
 				$uploadProblems=false;
@@ -55,25 +54,26 @@ class CopiesController extends AppController {
 				// Now move the uploaded file into the right folder:
 				if(!$uploadProblems){
 					$uploadPath=WWW_ROOT.Configure::read('mediaPath').'frames/copy/';
-					debug(sprintf('Image file will now be moved to %s%010d.jpg',$uploadPath,$this->Copy->id));
+					//debug(sprintf('Image file will now be moved to %s%010d.jpg',$uploadPath,$this->Copy->id));
 					move_uploaded_file($this->data['Copy']['content']['tmp_name'],sprintf('%s%010d.jpg',$uploadPath,$this->Copy->id));
 					// Mark the film for a new rendering:
 					$film=$this->Copy->Original->find('first',array('conditions'=>array('Original.id'=>$original_id) ,'recursive'=>'1') );
 					$film['Film']['render_me']=true;
 					$this->Copy->Original->Film->save($film);
+					$this->Session->setFlash(__('The Copy has been saved. But it will take a while before it shows up in the film.', true));
 				}else{
-					// Delete the film record again, because there is no corresponding file now:
+					// Delete the record again, because there is no corresponding file now:
 					$this->Copy->del($this->Copy->id);
-					$this->Session->setFlash(__('Image Error. The film could not be created', true).$uploadErrorReport);
+					$this->Session->setFlash(__('Image Error. The copy could not be created', true).$uploadErrorReport);
 				}
-				$this->redirect(array('action'=>'index'));
+				$this->redirect(array('controller'=>'Films','action'=>'view',$original['Original']['film_id']));
 			} else {
 				$this->Session->setFlash(__('The Copy could not be saved. Please, try again.', true));
 			}
 		}
-		$originals = $this->Copy->Original->find('list');
+		
 		$users = $this->Copy->User->find('list');
-		$this->set(compact('originals', 'users'));
+		$this->set(compact('original', 'users'));
 		$this->set('original_id',$original_id);
 	}
 
