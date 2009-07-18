@@ -25,7 +25,7 @@ class RenderFilmTask extends Shell{
 			}
 			$i++;
 		}
-		// Mark this films as rendered (it is not yet, but symlinks are done, any new Copies must trigger another render):
+		// Mark this films as rendered (it is not yet, but symlinks are done, any new Copies must trigger another render.):
 		$this->Film->id=$film_id;
 		$this->Film->saveField('render_me',false);
 		
