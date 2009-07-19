@@ -3,6 +3,7 @@ class RenderFilmTask extends Shell{
 	var $uses=array('Film','Original','Copy');
 	function execute($film_id){
 		// *** Prepare: ***
+		$this->Film->read(null,$film_id);
 		$originalFolder=sprintf('%s%sframes/original/%05d',WWW_ROOT,Configure::read('mediaPath'),$film_id);
 		$originalVideo=sprintf('%s%svideo/original/%05d.flv',WWW_ROOT,Configure::read('mediaPath'),$film_id);
 		$copyFolder=sprintf('%s%sframes/copy',WWW_ROOT,Configure::read('mediaPath'));
@@ -30,12 +31,13 @@ class RenderFilmTask extends Shell{
 		$this->Film->saveField('render_me',false);
 		
 		// *** Render video from frames, add original audio ***
-		exec(sprintf('ffmpeg -r 25 -i %s/%s.jpg -i %s -map 0.0 -map 1.1 -vcodec libx264 -b 700k -vpre hq -crf 22 -threads 0 -acodec libmp3lame %s/%05d.flv',$tmpFolder,'%10d',$originalVideo,$tmpFolder,$film_id));
+		exec(sprintf('nice ffmpeg -r %s -i %s/%s.jpg -i %s -map 0.0 -map 1.1 -vcodec libx264 -b 700k -vpre hq -crf 22 -threads 0 -acodec libmp3lame %s/%05d.flv',$this->Film->getFramerate(),$tmpFolder,'%10d',$originalVideo,$tmpFolder,$film_id));
 		// Some explanations:
-		//                          ^ Image sequence input
-		//                                       ^ Original video input (for sound)
-		//                                             ^ take video stream from first input
-		//                                                      ^ and audio stream from second input
+		//                         ^ framerate from original
+		//                               ^ Image sequence input
+		//                                            ^ Original video input (for sound)
+		//                                                  ^ take video stream from first input
+		//                                                           ^ and audio stream from second input
 		unlink(sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		rename(sprintf('%s/%05d.flv',$tmpFolder,$film_id),sprintf('%s/%05d.flv',$destinationFolder,$film_id));
 		// *** Clean Up ***

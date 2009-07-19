@@ -54,6 +54,18 @@ class Film extends AppModel {
 		return $loneOriginals;
 	}
 	
+	function getFramerate(){
+		// Check if framerate is already cached in db:
+		// ###
+		// Extract and save framerate from the original video file:
+		$inputFile=sprintf('%s%svideo/original/%05d.flv',WWW_ROOT,Configure::read('mediaPath'),$this->id);
+		// Run ffmpeg on the file, redirect stderr, so we can read it:
+		exec('nice ffmpeg -i '.$inputFile.' 2>&1',$fileInfo);
+		$fileInfo=implode($fileInfo);
+		preg_match('/[0-9.]{1,5} tbr/',$fileInfo,$matches);
+		$framerate=substr($matches[0],0,-4);
+		return $framerate;
+	}
 
 }
 ?>
