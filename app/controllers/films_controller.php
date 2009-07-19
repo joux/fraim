@@ -15,6 +15,7 @@ class FilmsController extends AppController {
 			$this->redirect(array('action'=>'index'));
 		}
 		$this->set('film', $this->Film->read(null, $id));
+		$this->set('suggestFrames',$this->Film->getUnclonedOriginals(4));
 	}
 
 	function add() {
@@ -69,24 +70,11 @@ class FilmsController extends AppController {
 	function adoptFrame($id=null){
 		// This function redirects to adding a copy to a random original (that needs it)
 		if(!$id) $this->redirect('index');
-		// This query returns all original frames that have no copies:
-		App::import('Core','Sanitize');
-		$query='SELECT originals.id FROM `originals` LEFT OUTER JOIN copies ON originals.id = copies.original_id WHERE copies.id IS NULL AND originals.film_id = '.Sanitize::paranoid($id).' GROUP BY originals.id';
-		$loneOriginals=$this->Film->Original->query($query);
-		$frameCount=$this->Film->Original->getAffectedRows();
-		if($frameCount>0) $this->redirect(array('controller'=>'Copies','action'=>'add',$loneOriginals[rand(0,$frameCount-1)]['originals']['id']));
-		// If all originals already have copies: Get a random range of 5 frame ids and choose the one with the least amount of copies:
-		$frameCount=$this->Film->Original->find('count');
-		$loneOriginals=$this->Film->Original->find('all',array('limit'=>'5','page'=>rand(1,($frameCount/5)-1) ) );
-		$copyCount=count($loneOriginals[0]['Copy']);
-		$loneliestId=$loneOriginals[0]['Original']['id'];
-		foreach($loneOriginals as $loneOriginal){
-			if(count($loneOriginal['Copy'])<$copyCount){
-				$copyCount=count($loneOriginal['Copy']);
-				$loneliestId=$loneOriginal['Original']['id'];
-			};
-		}
-		$this->redirect(array('controller'=>'Copies','action'=>'add',$loneliestId));
+		$loneOriginals=$this->Film->getUnclonedOriginals(1);
+		if(!empty($loneOriginals)) $this->redirect(array('controller'=>'Copies','action'=>'add',$loneOriginals[0]['Original']['id']));
+		// If all originals already have copies: Get the one with the least amount of copies:
+		$loneOriginals=$this->Film->getLeastClonedOriginals(1);
+		$this->redirect(array('controller'=>'Copies','action'=>'add',$loneOriginals[0]['Original']['id']));
 	}
 
 	function edit($id = null) {

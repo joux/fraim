@@ -33,6 +33,14 @@
 		autoBuffering: false
 		}
 		});'); ?>
+	<?php foreach($suggestFrames as $suggestFrame):?>
+	<div>
+	<?php echo $html->link(
+		$html->image(sprintf('/%sframes/original/%05d/%s',Configure::read('mediaPath'),$suggestFrame['Original']['film_id'],$suggestFrame['Original']['file']),array('class'=>'thumbnail') )
+		,array('controller'=>'Copies','action'=>'add',$suggestFrame['Original']['id']),null,null,false); ?>
+	
+	</div>
+	<?php endforeach; ?>
 </div>
 <div class="actions">
 <?php echo $html->link(__('Adopt a frame!',true),array('controller'=>'Films','action'=>'adoptFrame',$film['Film']['id'])); ?>
