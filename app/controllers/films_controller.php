@@ -19,7 +19,6 @@ class FilmsController extends AppController {
 			$this->Session->setFlash(__('Invalid Film.', true));
 			$this->redirect(array('action'=>'index'));
 		}
-		$this->Film->recursive=0;
 		$this->set('film', $this->Film->read(null, $id));
 		$this->set('suggestFrames',$this->Film->getUnclonedOriginals(4));
 	}

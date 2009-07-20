@@ -2,7 +2,8 @@
 class Film extends AppModel {
 
 	var $name = 'Film';
-
+	// Set no recursion, the high amount of connected frames is too much:
+	var $recursive=0;
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 	var $belongsTo = array(
 		'User' => array(
