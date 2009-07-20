@@ -3,6 +3,11 @@ class FilmsController extends AppController {
 
 	var $name = 'Films';
 	var $helpers = array('Html', 'Form','Javascript');
+	var $components= array('Auth');
+	
+	function beforeFilter(){
+		$this->Auth->allow('*');
+	}
 
 	function index() {
 		$this->Film->recursive = 0;

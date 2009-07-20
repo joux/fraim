@@ -3,6 +3,11 @@ class OriginalsController extends AppController {
 
 	var $name = 'Originals';
 	var $helpers = array('Html', 'Form');
+	var $components= array('Auth');
+	
+	function beforeFilter(){
+		$this->Auth->allow('*');
+	}
 
 	function index() {
 		$this->Original->recursive = 0;

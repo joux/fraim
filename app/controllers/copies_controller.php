@@ -3,6 +3,11 @@ class CopiesController extends AppController {
 
 	var $name = 'Copies';
 	var $helpers = array('Html', 'Form');
+	var $components= array('Auth');
+	
+	function beforeFilter(){
+		$this->Auth->allow('*');
+	}
 
 	function index() {
 		$this->Copy->recursive = 0;
