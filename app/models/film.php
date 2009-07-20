@@ -31,10 +31,23 @@ class Film extends AppModel {
 	);
 	
 	function getUnclonedOriginals($amount=1){
-		// This function returns up to n Originals, that have no Copy
-		$query='SELECT * FROM `originals` AS Original LEFT OUTER JOIN copies ON Original.id = copies.original_id WHERE copies.id IS NULL AND Original.film_id = '.$this->id.' GROUP BY Original.id';
+		// This function returns up to n Originals that have no Copy
+		// Check how many records will be affected:
+		$query='SELECT COUNT(*) AS count FROM (SELECT Original.id AS myId FROM `originals` AS Original LEFT OUTER JOIN copies ON Original.id = copies.original_id WHERE copies.id IS NULL AND Original.film_id = '.$this->id.' GROUP BY Original.id) AS countTable;';
+		$count=$this->Original->query($query);
+		$count=$count[0][0]['count'];
+		// We want to retrieve 4 times as many records as needed, so we can randomize a little:
+		$getAmount=2*$amount;
+		debug('Lone records: '.$count);
+		// Retrieve data 1:
+		$query='SELECT Original.* FROM `originals` AS Original LEFT OUTER JOIN copies ON Original.id = copies.original_id WHERE copies.id IS NULL AND Original.film_id = '.$this->id.' GROUP BY Original.id LIMIT '.rand(1,$count-$getAmount).','.$getAmount;
 		$loneOriginals=$this->Original->query($query);
 		$frameCount=$this->Original->getAffectedRows();
+		// Retrieve data 2:
+		$query='SELECT Original.* FROM `originals` AS Original LEFT OUTER JOIN copies ON Original.id = copies.original_id WHERE copies.id IS NULL AND Original.film_id = '.$this->id.' GROUP BY Original.id LIMIT '.rand(1,$count-$getAmount).','.$getAmount;
+		$loneOriginals=array_merge($loneOriginals,$this->Original->query($query));
+		$frameCount+=$this->Original->getAffectedRows();
+		// Now we have records from 2 different "pages" to choose from:
 		if($frameCount<$amount) $amount=$frameCount;
 		shuffle($loneOriginals);
 		$loneOriginals=array_slice($loneOriginals,0,$amount);
