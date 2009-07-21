@@ -481,4 +481,32 @@ div.code-coverage-results span.result-good {
 .thumbnail{
 	width: 120px;
 	height: 90px;
+	margin: 2px;
+	border: 1px solid white;
+}
+.thumbnail:hover{
+	border: 1px solid red;
+}
+.thumbnailBox .thumbnail{
+	float: left;
+}
+.thumbnailBox{
+	width: 255px;
+}
+.bigVideoPlayer{
+	display:block;
+	width:512px;
+	height:384px
+}
+.smallVideoPlayer{
+	display:block;
+	width:320px;
+	height:240px
+}
+#reconstructedVideo{
+	width: 512px;
+}
+#originalVideo{
+}
+#suggestedFrames{
 }
