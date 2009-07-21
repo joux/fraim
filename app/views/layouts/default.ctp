@@ -42,6 +42,16 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $html->link(__('the stop collaborators', true), '/'); ?></h1>
+			<?php 
+			if($session->check('Auth.User.id')){
+				echo(__('Logged in as ',true).$session->read('Auth.User.name'));
+				echo '&nbsp;';
+				echo $html->link(__('Change Password',true),array('controller'=>'Users','action'=>'changePassword') );
+				echo '&nbsp;';
+				echo $html->link(__('Log out',true),array('controller'=>'Users','action'=>'logout') );
+				
+			}
+		?>
 		</div>
 		<div id="content">
 

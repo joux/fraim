@@ -6,7 +6,8 @@ class FilmsController extends AppController {
 	var $components= array('Auth');
 	
 	function beforeFilter(){
-		$this->Auth->allow('*');
+		parent::beforeFilter();
+		$this->Auth->allow('view');
 	}
 
 	function index() {
@@ -26,6 +27,7 @@ class FilmsController extends AppController {
 	function add() {
 		debug($this->data);
 		if (!empty($this->data)) {
+			$this->data['Film']['user_id']=$this->Auth->user('id');
 			$this->Film->create();
 			if ($this->Film->save($this->data)) {
 				$this->Session->setFlash(__('The Film has been saved', true));

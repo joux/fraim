@@ -6,7 +6,8 @@ class OriginalsController extends AppController {
 	var $components= array('Auth');
 	
 	function beforeFilter(){
-		$this->Auth->allow('*');
+		parent::beforeFilter();
+		$this->Auth->allow('view');
 	}
 
 	function index() {
