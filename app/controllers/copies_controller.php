@@ -32,6 +32,8 @@ class CopiesController extends AppController {
 		if (!empty($this->data)) $original_id=$this->data['Copy']['original_id'];
 		$original = $this->Copy->Original->find('first',array('conditions'=>array('Original.id'=>$original_id) ));
 		if (!empty($this->data)) {
+			// Copy will belong to the logged in User:
+			$this->data['Copy']['user_id']=$this->Auth->user('id');
 			$this->Copy->create();
 			if ($this->Copy->save($this->data)) {
 				//debug('Copy record saved with id '.$this->Copy->id);

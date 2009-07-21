@@ -9,7 +9,6 @@
 	<fieldset>
  		<legend><?php __('Add Copy');?></legend>
 	<?php
-		echo $form->input('user_id');
 		echo $form->input('original_id',array('type'=>'hidden','value'=>$original_id) );
 		echo $form->input('description');
 		echo $form->input('content',array('type'=>'file','label'=>sprintf(__('JPEG Image File, %d KB max',true),Configure::read('max_picture_upload_size')/1024)));
