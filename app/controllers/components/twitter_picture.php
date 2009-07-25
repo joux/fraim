@@ -87,7 +87,7 @@ class TwitterPictureComponent extends Object{
 	}
 	
 	// return all links found in a text:
-	function find_URLS( $text ){
+	function findURLs( $text ){
 		// build the patterns
 		$scheme         =       '(http:\/\/|https:\/\/)';
 		$www            =       'www\.';
@@ -103,7 +103,17 @@ class TwitterPictureComponent extends Object{
 		unset( $text, $scheme, $www, $ip, $subdomain, $name, $tld, $the_rest, $pattern );
 		if( $c )
 		{
-		return( array_flip($m[0]) );
+			return($m[0]);
+		}
+		return( array() );
+	}
+	// Return all words prefixed with #:
+	function findHashTags($text){
+		$find = "/(^|\s)#(\w*)/i";
+		$c=preg_match_all($find,$text,$m);
+		if( $c )
+		{
+			return( ($m[0]) );
 		}
 		return( array() );
 	}

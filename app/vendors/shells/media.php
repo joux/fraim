@@ -1,5 +1,5 @@
 <?php 
-class MediaShell extends SHell{
+class MediaShell extends Shell{
 	var $uses=array('Film');
 	var $tasks=array('ConvertNextFilm','RenderNextFilm','RenderFilm');
 	
