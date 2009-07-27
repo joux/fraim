@@ -11,13 +11,12 @@ class GetValidHashTagIdTask extends Shell{
 		$hashTags=$this->TwitterPicture->findHashTags($text);
 		$originalId=null;
 		foreach($hashTags as $hashTag){
-			$testId=substr($hashTag,1); // Remove '#'
 			// Check if we can find an original with that id
 			if($this->Original->find('count',array('recursive'=>'0',
 				'conditions'=>array(
-					'Original.id'=>$testId
+					'Original.id'=>$hashTag
 					) ))==1){
-				$originalId=$testId;
+				$originalId=$hashTag;
 				break;
 			}
 		}

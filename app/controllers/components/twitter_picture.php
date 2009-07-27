@@ -136,7 +136,7 @@ class TwitterPictureComponent extends Object{
 		$c=preg_match_all($find,$text,$m);
 		if( $c )
 		{
-			return( ($m[0]) );
+			return( ($m[2]) );
 		}
 		return( array() );
 	}
