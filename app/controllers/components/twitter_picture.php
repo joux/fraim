@@ -3,7 +3,23 @@ class TwitterPictureComponent extends Object{
 	
 	
 	// Get the largest (in bytes) img from a website:
-	function getLargestImageURL($url){
+	function findLargestImageURL($url){
+		$header=array_change_key_case(get_headers($url, 1));
+		// *** If we were redirected, use the new address:
+		if(!empty($header['location'])){
+			$url=$header['location'];
+		}
+		// *** If the URL already points directly at an image, simply return it: ***
+		$accepted_image_mime_types=array(
+			'image/jpeg',
+			'image/jpg',
+			'image/png',
+			'image/gif'
+			);
+		if(in_array($header['content-type'],$accepted_image_mime_types) || in_array($header['content-type'][1],$accepted_image_mime_types)){
+			return $url;
+		}
+		// *** Parse HTML for largest image: ***
 		// Import the library:
 		App::import('Vendor', 'SimpleHTML', array('file' => 'simple_html_dom.php'));
 		$html = file_get_html($url);
@@ -14,28 +30,33 @@ class TwitterPictureComponent extends Object{
 			$img_url=$this->InternetCombineUrl($url,$element->src);
 			// Try to get size info from header:
 			$header=array_change_key_case(get_headers($img_url, 1));
-			if($header['content-length']){
-				if($header['content-length']>$largest_file_size){
-				$largest_file_size=$header['content-length'];
-				$largest_file_url=$img_url;
-				}
-				// TODO: make redirections work, too
-				// See http://us3.php.net/manual/en/function.filesize.php#84130
-			}else{ 
-				// If no content-length-header is sent, we need to download the image:
-				$tmp_filename=sha1($img_url);
-				$content = file_get_contents($img_url);
-				$handle = fopen(TMP.$tmp_filename, "w");
-				fwrite($handle, $content);
-				fclose($handle);
-				$filesize=filesize(TMP.$tmp_filename);
-				if($filesize>$largest_file_size){
-				$largest_file_size=$filesize;
-				$largest_file_url=$img_url;
-				unlink(TMP.$tmp_filename);
+			// Only continue if "200 OK" directly or after first redirect:
+			if($header[0]=='HTTP/1.1 200 OK' || $header[1]=='HTTP/1.1 200 OK'){
+				if(!empty($header['content-length'])){
+					// If we were redirected, the second entry is the one.
+					// See http://us3.php.net/manual/en/function.filesize.php#84130
+					if(!empty($header['content-length'][1])){
+						$header['content-length']=$header['content-length'][1];
+					}
+					if($header['content-length']>$largest_file_size){
+					$largest_file_size=$header['content-length'];
+					$largest_file_url=$img_url;
+					}
+				}else{ 
+					// If no content-length-header is sent, we need to download the image:
+					$tmp_filename=sha1($img_url);
+					$content = file_get_contents($img_url);
+					$handle = fopen(TMP.$tmp_filename, "w");
+					fwrite($handle, $content);
+					fclose($handle);
+					$filesize=filesize(TMP.$tmp_filename);
+					if($filesize>$largest_file_size){
+					$largest_file_size=$filesize;
+					$largest_file_url=$img_url;
+					unlink(TMP.$tmp_filename);
+					}
 				}
 			}
-			 
 		}
 		return $largest_file_url;
 	}
@@ -43,7 +64,8 @@ class TwitterPictureComponent extends Object{
 	// Helper function to get absolute URLs
 	function InternetCombineUrl($absolute, $relative) {
 		$p = parse_url($relative);
-		if($p["scheme"])return $relative;
+		//if($p["scheme"])return $relative;
+		if(!empty($p["scheme"]))return $relative;
 		
 		extract(parse_url($absolute));
 		
@@ -72,7 +94,8 @@ class TwitterPictureComponent extends Object{
 		if($scheme) {
 		    $url = "$scheme://";
 		}
-		if($user) {
+		//if($user) {
+		if(!empty($user)) {
 		    $url .= "$user";
 		    if($pass) {
 			$url .= ":$pass";
